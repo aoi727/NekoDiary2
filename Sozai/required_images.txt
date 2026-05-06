@@ -1,0 +1,21 @@
+NekoDiary requires the following image files in this folder at runtime.
+These files are not redistributed in this repository.
+
+Camera.png
+bunbougu_keshigomu.png
+bunbougu_magic3.png
+bunbougu_magic4.png
+computer_sdcard.png
+digital_camera.png
+floppy_disk.png
+fruit_ao_ringo.png
+fruit_slice10_orange.png
+fruit_slice_grapefruit_pink.png
+gomibako_empty.png
+mark_ng.png
+pen_keseru_ballpen.png
+pen_mannenhitsu.png
+search_mushimegane.png
+techou.png
+yumekawa_bird1_red.png
+yumekawa_bird3_green.png
