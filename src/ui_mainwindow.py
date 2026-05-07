@@ -58,15 +58,15 @@ from .settings import AppSettings
 
 
 FONT_SIZE_POINTS = {
-    "小": 9,
-    "中": 10,
-    "大": 12,
-    "特大": 14,
+    "小": 10,
+    "中": 11,
+    "大": 13,
+    "特大": 15,
 }
 
 
 def get_scaled_point_size(font_size_mode: str, body_text_scale: float) -> float:
-    return FONT_SIZE_POINTS.get(font_size_mode, 10) * body_text_scale
+    return FONT_SIZE_POINTS.get(font_size_mode, 11) * body_text_scale
 
 
 def set_translucent_scroll_surface(widget, alpha: int = 100) -> None:
