@@ -15,6 +15,7 @@ from PySide6.QtGui import (
     QPainter,
     QPalette,
     QPixmap,
+    QBrush,
     QTextCharFormat,
     QStandardItem,
     QStandardItemModel,
@@ -488,6 +489,7 @@ class MemoEditorDialog(QDialog):
         self.memo = memo
         self._memo_id = 0 if memo is None else memo.id
         self._selected_color = QColor(QColorConstants.Black)
+        self._selected_marker_color = QColor("#fff59d")
         self._selected_tags: list[str] = []
 
         self.setWindowTitle("Diary(RICH)")
@@ -581,6 +583,29 @@ class MemoEditorDialog(QDialog):
         bold_button.setToolTip("太字")
         bold_button.clicked.connect(self._toggle_bold)
         toolbar_layout.addWidget(bold_button)
+
+        underline_button = QPushButton()
+        underline_button.setIcon(self._load_icon("bunbougu_magic3.png"))
+        underline_button.setIconSize(QSize(24, 24))
+        underline_button.setFixedSize(44, 40)
+        underline_button.setToolTip("下線")
+        underline_button.clicked.connect(self._toggle_underline)
+        toolbar_layout.addWidget(underline_button)
+
+        toolbar_layout.addWidget(QLabel("マーカー:"))
+        self.marker_color_combo = QComboBox()
+        style_combo_popup(self.marker_color_combo)
+        self._populate_marker_color_combo()
+        apply_combo_item_colors(self.marker_color_combo)
+        toolbar_layout.addWidget(self.marker_color_combo)
+
+        marker_button = QPushButton()
+        marker_button.setIcon(self._load_icon("fruit_slice_grapefruit_pink.png"))
+        marker_button.setIconSize(QSize(24, 24))
+        marker_button.setFixedSize(44, 40)
+        marker_button.setToolTip("ラインマーカーを適用")
+        marker_button.clicked.connect(self._apply_marker)
+        toolbar_layout.addWidget(marker_button)
 
         image_button = QPushButton()
         image_button.setIcon(self._load_icon("Camera.png"))
@@ -676,6 +701,24 @@ class MemoEditorDialog(QDialog):
         for color_name in color_names:
             self.color_combo.addItem(self._create_color_icon(QColor(color_name)), color_name)
         self.color_combo.addItem(self._create_color_icon(QColor("#888888")), "Custom...")
+
+    def _populate_marker_color_combo(self) -> None:
+        marker_colors = [
+            ("Yellow", "#fff59d"),
+            ("Pink", "#ffd6e7"),
+            ("Mint", "#c8f7dc"),
+            ("Blue", "#cfe8ff"),
+            ("Lavender", "#e5d8ff"),
+            ("Orange", "#ffd7a8"),
+        ]
+        for label, color_code in marker_colors:
+            self.marker_color_combo.addItem(self._create_color_icon(QColor(color_code)), label)
+            self.marker_color_combo.setItemData(
+                self.marker_color_combo.count() - 1,
+                color_code,
+                Qt.ItemDataRole.UserRole,
+            )
+        self.marker_color_combo.addItem(self._create_color_icon(QColor("#888888")), "Custom...")
 
     def _create_color_icon(self, color: QColor) -> QIcon:
         pixmap = QPixmap(18, 18)
@@ -780,6 +823,19 @@ class MemoEditorDialog(QDialog):
             self._selected_color = color
         return self._selected_color
 
+    def _resolve_marker_color(self) -> QColor:
+        color_code = self.marker_color_combo.currentData(Qt.ItemDataRole.UserRole)
+        if isinstance(color_code, str) and color_code:
+            color = QColor(color_code)
+            if color.isValid():
+                self._selected_marker_color = color
+            return self._selected_marker_color
+
+        color = QColorDialog.getColor(self._selected_marker_color, self, "マーカー色")
+        if color.isValid():
+            self._selected_marker_color = color
+        return self._selected_marker_color
+
     def _apply_style(self) -> None:
         color = self._resolve_color()
         fmt = QTextCharFormat()
@@ -799,6 +855,25 @@ class MemoEditorDialog(QDialog):
         fmt.setFontWeight(QFont.Normal if current_weight >= QFont.Bold else QFont.Bold)
         if cursor.hasSelection():
             cursor.mergeCharFormat(fmt)
+        self.editor.mergeCurrentCharFormat(fmt)
+
+    def _toggle_underline(self) -> None:
+        cursor = self.editor.textCursor()
+        fmt = QTextCharFormat()
+        fmt.setFontUnderline(not self.editor.currentCharFormat().fontUnderline())
+        if cursor.hasSelection():
+            cursor.mergeCharFormat(fmt)
+        self.editor.mergeCurrentCharFormat(fmt)
+
+    def _apply_marker(self) -> None:
+        color = self._resolve_marker_color()
+        fmt = QTextCharFormat()
+        fmt.setBackground(QBrush(color))
+        cursor = self.editor.textCursor()
+        if not cursor.hasSelection():
+            self.editor.setCurrentCharFormat(fmt)
+            return
+        cursor.mergeCharFormat(fmt)
         self.editor.mergeCurrentCharFormat(fmt)
 
     def _insert_image(self) -> None:
