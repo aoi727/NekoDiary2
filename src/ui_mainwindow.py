@@ -576,6 +576,14 @@ class MemoEditorDialog(QDialog):
         apply_combo_item_colors(self.color_combo)
         toolbar_layout.addWidget(self.color_combo)
 
+        style_button = QPushButton()
+        style_button.setIcon(self._load_icon("yumekawa_bird3_green.png"))
+        style_button.setIconSize(QSize(24, 24))
+        style_button.setFixedSize(44, 40)
+        style_button.setToolTip("装飾を適用")
+        style_button.clicked.connect(self._apply_style)
+        toolbar_layout.addWidget(style_button)
+
         bold_button = QPushButton()
         bold_button.setIcon(self._load_icon("bunbougu_magic4.png"))
         bold_button.setIconSize(QSize(24, 24))
@@ -614,14 +622,6 @@ class MemoEditorDialog(QDialog):
         image_button.setToolTip("画像を挿入")
         image_button.clicked.connect(self._insert_image)
         toolbar_layout.addWidget(image_button)
-
-        style_button = QPushButton()
-        style_button.setIcon(self._load_icon("yumekawa_bird3_green.png"))
-        style_button.setIconSize(QSize(24, 24))
-        style_button.setFixedSize(44, 40)
-        style_button.setToolTip("装飾を適用")
-        style_button.clicked.connect(self._apply_style)
-        toolbar_layout.addWidget(style_button)
         toolbar_layout.addStretch(1)
         frame_layout.addLayout(toolbar_layout)
 
