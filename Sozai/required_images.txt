@@ -1,21 +1,22 @@
 NekoDiary requires the following image files in this folder at runtime.
-These files are not redistributed in this repository.
+These icon assets are generated in this repository by scripts/generate_icons.ps1.
 
-Camera.png
-bunbougu_keshigomu.png
-bunbougu_magic3.png
-bunbougu_magic4.png
-computer_sdcard.png
-digital_camera.png
-floppy_disk.png
-fruit_ao_ringo.png
-OK.png
-fruit_slice_grapefruit_pink.png
-gomibako_empty.png
-Cancel.png
-pen_keseru_ballpen.png
-pen_mannenhitsu.png
-search_mushimegane.png
-techou.png
-yumekawa_bird1_red.png
-yumekawa_bird3_green.png
+attachment.png
+backup.png
+bold.png
+bookmark-green.png
+bookmark-red.png
+camera.png
+check.png
+close.png
+eraser.png
+highlight.png
+home.png
+notebook.png
+note-add.png
+note-edit.png
+plus.png
+search.png
+settings.png
+trash.png
+underline.png

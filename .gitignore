@@ -18,7 +18,7 @@ desktop.ini
 *.bmp
 *.gif
 *.ico
-!app_icon.ico
+!app-icon.ico
 !Sozai/
-Sozai/*.png
+!Sozai/*.png
 !Sozai/required_images.txt

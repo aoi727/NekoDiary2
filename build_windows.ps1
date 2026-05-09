@@ -31,7 +31,7 @@ $addData = @(
     "--add-data", "$root\Sozai;Sozai"
 )
 
-$icon = Join-Path $root "app_icon.ico"
+$icon = Join-Path $root "app-icon.ico"
 $iconArgs = @()
 if (Test-Path $icon) {
     $iconArgs = @("--icon", $icon)

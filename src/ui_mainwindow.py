@@ -268,7 +268,7 @@ class SettingsDialog(QDialog):
         self.db = db
         self._config = AppConfig(**config.__dict__)
         self.setWindowTitle("設定")
-        self.setWindowIcon(self._load_icon("techou.png"))
+        self.setWindowIcon(self._load_icon("notebook.png"))
         self.resize(860, 560)
         self._build_ui()
         self._apply_config()
@@ -290,7 +290,7 @@ class SettingsDialog(QDialog):
         top_row.addWidget(self.title_edit, 1)
 
         ok_button = QPushButton()
-        ok_button.setIcon(self._load_icon("OK.png"))
+        ok_button.setIcon(self._load_icon("check.png"))
         ok_button.setIconSize(QSize(44, 44))
         ok_button.setFixedSize(58, 58)
         ok_button.setToolTip("保存")
@@ -298,7 +298,7 @@ class SettingsDialog(QDialog):
         top_row.addWidget(ok_button)
 
         cancel_button = QPushButton()
-        cancel_button.setIcon(self._load_icon("Cancel.png"))
+        cancel_button.setIcon(self._load_icon("close.png"))
         cancel_button.setIconSize(QSize(44, 44))
         cancel_button.setFixedSize(58, 58)
         cancel_button.setToolTip("キャンセル")
@@ -413,7 +413,7 @@ class SettingsDialog(QDialog):
 
         buttons_row = QHBoxLayout()
         select_button = QPushButton()
-        select_button.setIcon(self._load_icon("Camera.png"))
+        select_button.setIcon(self._load_icon("camera.png"))
         select_button.setIconSize(QSize(32, 32))
         select_button.setFixedSize(52, 42)
         select_button.setToolTip("画像を選択")
@@ -492,7 +492,7 @@ class MemoEditorDialog(QDialog):
         self._selected_tags: list[str] = []
 
         self.setWindowTitle("Diary(RICH)")
-        self.setWindowIcon(self._load_icon("techou.png"))
+        self.setWindowIcon(self._load_icon("notebook.png"))
         self.resize(940, 760)
         self.surface = BackgroundSurface(self)
         layout = QVBoxLayout(self)
@@ -540,7 +540,7 @@ class MemoEditorDialog(QDialog):
         action_buttons.addStretch(1)
 
         save_button = QPushButton()
-        save_button.setIcon(self._load_icon("OK.png"))
+        save_button.setIcon(self._load_icon("check.png"))
         save_button.setIconSize(QSize(34, 34))
         save_button.setFixedSize(50, 50)
         save_button.setToolTip("保存")
@@ -548,7 +548,7 @@ class MemoEditorDialog(QDialog):
         action_buttons.addWidget(save_button)
 
         cancel_button = QPushButton()
-        cancel_button.setIcon(self._load_icon("Cancel.png"))
+        cancel_button.setIcon(self._load_icon("close.png"))
         cancel_button.setIconSize(QSize(34, 34))
         cancel_button.setFixedSize(50, 50)
         cancel_button.setToolTip("キャンセル")
@@ -576,7 +576,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(self.color_combo)
 
         style_button = QPushButton()
-        style_button.setIcon(self._load_icon("Adopt.png"))
+        style_button.setIcon(self._load_icon("plus.png"))
         style_button.setIconSize(QSize(24, 24))
         style_button.setFixedSize(44, 40)
         style_button.setToolTip("装飾を適用")
@@ -584,7 +584,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(style_button)
 
         bold_button = QPushButton()
-        bold_button.setIcon(self._load_icon("bunbougu_magic4.png"))
+        bold_button.setIcon(self._load_icon("bold.png"))
         bold_button.setIconSize(QSize(24, 24))
         bold_button.setFixedSize(44, 40)
         bold_button.setToolTip("太字")
@@ -592,7 +592,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(bold_button)
 
         underline_button = QPushButton()
-        underline_button.setIcon(self._load_icon("bunbougu_magic3.png"))
+        underline_button.setIcon(self._load_icon("underline.png"))
         underline_button.setIconSize(QSize(24, 24))
         underline_button.setFixedSize(44, 40)
         underline_button.setToolTip("下線")
@@ -607,7 +607,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(self.marker_color_combo)
 
         marker_button = QPushButton()
-        marker_button.setIcon(self._load_icon("fruit_slice_grapefruit_pink.png"))
+        marker_button.setIcon(self._load_icon("highlight.png"))
         marker_button.setIconSize(QSize(24, 24))
         marker_button.setFixedSize(44, 40)
         marker_button.setToolTip("ラインマーカーを適用")
@@ -615,7 +615,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(marker_button)
 
         image_button = QPushButton()
-        image_button.setIcon(self._load_icon("Camera.png"))
+        image_button.setIcon(self._load_icon("camera.png"))
         image_button.setIconSize(QSize(28, 28))
         image_button.setFixedSize(48, 40)
         image_button.setToolTip("画像を挿入")
@@ -637,7 +637,7 @@ class MemoEditorDialog(QDialog):
         self.tags_edit.setPlaceholderText("#天気 #通勤 または 天気; 通勤")
 
         self.add_manual_tag_button = QPushButton()
-        self.add_manual_tag_button.setIcon(self._load_icon("Adopt.png"))
+        self.add_manual_tag_button.setIcon(self._load_icon("plus.png"))
         self.add_manual_tag_button.setIconSize(QSize(22, 22))
         self.add_manual_tag_button.setFixedSize(42, 38)
         self.add_manual_tag_button.setToolTip("入力したタグを追加")
@@ -649,7 +649,7 @@ class MemoEditorDialog(QDialog):
         apply_combo_item_colors(self.tag_suggestion_combo)
 
         self.add_tag_button = QPushButton()
-        self.add_tag_button.setIcon(self._load_icon("fruit_slice_grapefruit_pink.png"))
+        self.add_tag_button.setIcon(self._load_icon("highlight.png"))
         self.add_tag_button.setIconSize(QSize(22, 22))
         self.add_tag_button.setFixedSize(42, 38)
         self.add_tag_button.setToolTip("候補からタグを追加")
@@ -930,7 +930,7 @@ class MainWindow(QMainWindow):
         self.config = self.db.get_app_config()
         self.current_memo_id: int | None = None
 
-        self.setWindowIcon(self._load_icon("techou.png"))
+        self.setWindowIcon(self._load_icon("notebook.png"))
         self.surface = BackgroundSurface(self)
         self.setCentralWidget(self.surface)
         self._build_ui()
@@ -951,12 +951,12 @@ class MainWindow(QMainWindow):
         self.addToolBar(toolbar)
 
         actions = [
-            ("fruit_ao_ringo.png", "ホーム", self._go_home),
-            ("pen_mannenhitsu.png", "新規作成", self._new_memo),
-            ("pen_keseru_ballpen.png", "表示・編集", self._edit_selected_memo),
-            ("gomibako_empty.png", "削除", self._delete_selected_memo),
-            ("floppy_disk.png", "日記ファイルの保存", self._backup_database),
-            ("digital_camera.png", "設定", self._open_settings),
+            ("home.png", "ホーム", self._go_home),
+            ("note-add.png", "新規作成", self._new_memo),
+            ("note-edit.png", "表示・編集", self._edit_selected_memo),
+            ("trash.png", "削除", self._delete_selected_memo),
+            ("backup.png", "日記ファイルの保存", self._backup_database),
+            ("settings.png", "設定", self._open_settings),
         ]
         for icon_name, label, callback in actions:
             action = QAction(self._load_icon(icon_name), label, self)
@@ -1028,8 +1028,8 @@ class MainWindow(QMainWindow):
         button_row = QVBoxLayout()
         button_row.setSpacing(8)
         for icon_name, tooltip, callback in [
-            ("bunbougu_keshigomu.png", "条件をクリア", self._clear_filters),
-            ("search_mushimegane.png", "検索", self._filter_and_load_memos),
+            ("eraser.png", "条件をクリア", self._clear_filters),
+            ("search.png", "検索", self._filter_and_load_memos),
         ]:
             button = QPushButton()
             button.setObjectName("sidebarIconButton")
@@ -1176,7 +1176,7 @@ class MainWindow(QMainWindow):
         memos = self.db.get_memos(start_date=start_date, end_date=end_date, category=category, keyword=keyword)
 
         self.list_model.clear()
-        image_icon = self._load_icon("computer_sdcard.png")
+        image_icon = self._load_icon("attachment.png")
         for memo in memos:
             preview = html_to_plain_text(memo.content).replace("\n", " ").strip()
             if len(preview) > 56:
