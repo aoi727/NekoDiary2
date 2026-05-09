@@ -18,6 +18,12 @@ class AppSettings:
     def load_geometry(self, key: str) -> QByteArray:
         return self.settings.value(f"{key}/geometry", QByteArray())
 
+    def save_state(self, key: str, state: QByteArray) -> None:
+        self.settings.setValue(f"{key}/state", state)
+
+    def load_state(self, key: str) -> QByteArray:
+        return self.settings.value(f"{key}/state", QByteArray())
+
     def save_database_path(self, path: str) -> None:
         self.settings.setValue("database/path", path)
 

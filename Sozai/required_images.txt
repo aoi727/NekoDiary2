@@ -9,10 +9,10 @@ computer_sdcard.png
 digital_camera.png
 floppy_disk.png
 fruit_ao_ringo.png
-fruit_slice10_orange.png
+OK.png
 fruit_slice_grapefruit_pink.png
 gomibako_empty.png
-mark_ng.png
+Cancel.png
 pen_keseru_ballpen.png
 pen_mannenhitsu.png
 search_mushimegane.png

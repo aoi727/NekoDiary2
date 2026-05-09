@@ -70,13 +70,26 @@ QLabel#previewSampleTitle {
     font-weight: 700;
 }
 
-QCalendarWidget QWidget#qt_calendar_navigationbar {
-    background: #f4f7ff;
+QFrame#homeTodayPanel {
+    background: rgba(255, 255, 255, 168);
+    border: 1px solid #f0c7d4;
+    border-radius: 14px;
 }
 
-QCalendarWidget QToolButton {
-    color: #394867;
-    font-weight: 600;
+QLabel#homeTodayCaption {
+    color: #7a6b7f;
+    font-weight: 700;
+}
+
+QLabel#homeTodayDate {
+    color: #31405d;
+    font-size: 18pt;
+    font-weight: 700;
+}
+
+QLabel#homeTodayWeekday {
+    color: #55627d;
+    font-size: 11pt;
 }
 
 QPushButton {
@@ -97,9 +110,9 @@ QPushButton:pressed {
 }
 
 QPushButton#sidebarIconButton {
-    min-width: 72px;
-    min-height: 50px;
-    padding: 8px;
+    min-width: 56px;
+    min-height: 35px;
+    padding: 6px;
 }
 
 QLineEdit,
@@ -185,6 +198,18 @@ QSplitter#memoPreviewSplitter::handle:hover {
     border-color: #bdc9e6;
 }
 
+QSplitter#homeContentSplitter::handle {
+    background: #edf2fb;
+    border: 1px solid #d8dceb;
+    border-radius: 4px;
+    margin: 20px 0;
+}
+
+QSplitter#homeContentSplitter::handle:hover {
+    background: #dfe7f7;
+    border-color: #bdc9e6;
+}
+
 QLabel#previewTitle {
     font-size: 16pt;
     font-weight: 700;
@@ -196,3 +221,4 @@ QStatusBar {
     background: #f7f0f2;
     border-top: 1px solid #d8dceb;
 }
+

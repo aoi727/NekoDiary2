@@ -22,7 +22,6 @@ from PySide6.QtGui import (
 )
 from PySide6.QtWidgets import (
     QApplication,
-    QCalendarWidget,
     QColorDialog,
     QComboBox,
     QDateEdit,
@@ -291,7 +290,7 @@ class SettingsDialog(QDialog):
         top_row.addWidget(self.title_edit, 1)
 
         ok_button = QPushButton()
-        ok_button.setIcon(self._load_icon("fruit_slice10_orange.png"))
+        ok_button.setIcon(self._load_icon("OK.png"))
         ok_button.setIconSize(QSize(44, 44))
         ok_button.setFixedSize(58, 58)
         ok_button.setToolTip("保存")
@@ -299,7 +298,7 @@ class SettingsDialog(QDialog):
         top_row.addWidget(ok_button)
 
         cancel_button = QPushButton()
-        cancel_button.setIcon(self._load_icon("mark_ng.png"))
+        cancel_button.setIcon(self._load_icon("Cancel.png"))
         cancel_button.setIconSize(QSize(44, 44))
         cancel_button.setFixedSize(58, 58)
         cancel_button.setToolTip("キャンセル")
@@ -541,7 +540,7 @@ class MemoEditorDialog(QDialog):
         action_buttons.addStretch(1)
 
         save_button = QPushButton()
-        save_button.setIcon(self._load_icon("yumekawa_bird3_green.png"))
+        save_button.setIcon(self._load_icon("OK.png"))
         save_button.setIconSize(QSize(34, 34))
         save_button.setFixedSize(50, 50)
         save_button.setToolTip("保存")
@@ -549,7 +548,7 @@ class MemoEditorDialog(QDialog):
         action_buttons.addWidget(save_button)
 
         cancel_button = QPushButton()
-        cancel_button.setIcon(self._load_icon("mark_ng.png"))
+        cancel_button.setIcon(self._load_icon("Cancel.png"))
         cancel_button.setIconSize(QSize(34, 34))
         cancel_button.setFixedSize(50, 50)
         cancel_button.setToolTip("キャンセル")
@@ -577,7 +576,7 @@ class MemoEditorDialog(QDialog):
         toolbar_layout.addWidget(self.color_combo)
 
         style_button = QPushButton()
-        style_button.setIcon(self._load_icon("yumekawa_bird3_green.png"))
+        style_button.setIcon(self._load_icon("Adopt.png"))
         style_button.setIconSize(QSize(24, 24))
         style_button.setFixedSize(44, 40)
         style_button.setToolTip("装飾を適用")
@@ -638,7 +637,7 @@ class MemoEditorDialog(QDialog):
         self.tags_edit.setPlaceholderText("#天気 #通勤 または 天気; 通勤")
 
         self.add_manual_tag_button = QPushButton()
-        self.add_manual_tag_button.setIcon(self._load_icon("fruit_slice10_orange.png"))
+        self.add_manual_tag_button.setIcon(self._load_icon("Adopt.png"))
         self.add_manual_tag_button.setIconSize(QSize(22, 22))
         self.add_manual_tag_button.setFixedSize(42, 38)
         self.add_manual_tag_button.setToolTip("入力したタグを追加")
@@ -650,7 +649,7 @@ class MemoEditorDialog(QDialog):
         apply_combo_item_colors(self.tag_suggestion_combo)
 
         self.add_tag_button = QPushButton()
-        self.add_tag_button.setIcon(self._load_icon("yumekawa_bird3_green.png"))
+        self.add_tag_button.setIcon(self._load_icon("fruit_slice_grapefruit_pink.png"))
         self.add_tag_button.setIconSize(QSize(22, 22))
         self.add_tag_button.setFixedSize(42, 38)
         self.add_tag_button.setToolTip("候補からタグを追加")
@@ -969,18 +968,34 @@ class MainWindow(QMainWindow):
         content_widget = QWidget()
         content_layout = QHBoxLayout(content_widget)
         content_layout.setContentsMargins(0, 0, 0, 0)
-        content_layout.setSpacing(12)
+        content_layout.setSpacing(0)
 
-        self.calendar = QCalendarWidget()
-        self.calendar.setMinimumWidth(280)
-        self.calendar.setMaximumWidth(320)
+        self.home_date = QDate.currentDate()
+
+        today_panel = QFrame()
+        today_panel.setObjectName("homeTodayPanel")
+        today_layout = QVBoxLayout(today_panel)
+        today_layout.setContentsMargins(14, 14, 14, 14)
+        today_layout.setSpacing(4)
+
+        self.today_caption_label = QLabel("今日")
+        self.today_caption_label.setObjectName("homeTodayCaption")
+        self.today_date_label = QLabel()
+        self.today_date_label.setObjectName("homeTodayDate")
+        self.today_weekday_label = QLabel()
+        self.today_weekday_label.setObjectName("homeTodayWeekday")
+        today_layout.addWidget(self.today_caption_label)
+        today_layout.addWidget(self.today_date_label)
+        today_layout.addWidget(self.today_weekday_label)
+        self._update_home_date_labels()
 
         left_card = QFrame()
         left_card.setObjectName("leftCard")
+        left_card.setMinimumWidth(180)
         left_layout = QVBoxLayout(left_card)
         left_layout.setContentsMargins(12, 12, 12, 12)
         left_layout.setSpacing(12)
-        left_layout.addWidget(self.calendar)
+        left_layout.addWidget(today_panel)
 
         search_panel = QWidget()
         search_layout = QVBoxLayout(search_panel)
@@ -1010,9 +1025,9 @@ class MainWindow(QMainWindow):
         keyword_row.addWidget(self.search_box)
         search_layout.addLayout(keyword_row)
 
-        button_row = QHBoxLayout()
+        button_row = QVBoxLayout()
+        button_row.setSpacing(8)
         for icon_name, tooltip, callback in [
-            ("fruit_ao_ringo.png", "新しいものを表示", self._go_home),
             ("bunbougu_keshigomu.png", "条件をクリア", self._clear_filters),
             ("search_mushimegane.png", "検索", self._filter_and_load_memos),
         ]:
@@ -1028,13 +1043,12 @@ class MainWindow(QMainWindow):
         search_layout.addStretch(1)
 
         left_layout.addWidget(search_panel)
-        left_card.setFixedWidth(320)
-        content_layout.addWidget(left_card, 0)
 
         right_splitter = QSplitter(Qt.Orientation.Vertical)
         right_splitter.setObjectName("memoPreviewSplitter")
         right_splitter.setChildrenCollapsible(False)
         right_splitter.setHandleWidth(10)
+        self.memo_preview_splitter = right_splitter
 
         self.list_view = QListView()
         self.list_view.setObjectName("memoListView")
@@ -1073,7 +1087,17 @@ class MainWindow(QMainWindow):
         right_splitter.setStretchFactor(1, 2)
         right_splitter.setSizes([420, 280])
 
-        content_layout.addWidget(right_splitter, 1)
+        self.home_content_splitter = QSplitter(Qt.Orientation.Horizontal)
+        self.home_content_splitter.setObjectName("homeContentSplitter")
+        self.home_content_splitter.setChildrenCollapsible(False)
+        self.home_content_splitter.setHandleWidth(12)
+        self.home_content_splitter.addWidget(left_card)
+        self.home_content_splitter.addWidget(right_splitter)
+        self.home_content_splitter.setStretchFactor(0, 0)
+        self.home_content_splitter.setStretchFactor(1, 1)
+        self.home_content_splitter.setSizes([280, 820])
+
+        content_layout.addWidget(self.home_content_splitter, 1)
         main_layout.addWidget(content_widget, 1)
 
         status = QStatusBar()
@@ -1081,7 +1105,6 @@ class MainWindow(QMainWindow):
         self.status_label = QLabel("準備完了")
         status.addWidget(self.status_label)
 
-        self.calendar.selectionChanged.connect(self._filter_and_load_memos)
         self.combo_period.currentIndexChanged.connect(self._filter_and_load_memos)
         self.combo_category.currentIndexChanged.connect(self._filter_and_load_memos)
         self.search_box.textChanged.connect(self._filter_and_load_memos)
@@ -1127,8 +1150,12 @@ class MainWindow(QMainWindow):
                 self.combo_category.setCurrentIndex(index)
         self.combo_category.blockSignals(False)
 
+    def _update_home_date_labels(self) -> None:
+        self.today_date_label.setText(self.home_date.toString("yyyy-MM-dd"))
+        self.today_weekday_label.setText(self.home_date.toString("dddd"))
+
     def _filter_and_load_memos(self) -> None:
-        selected_date = self.calendar.selectedDate()
+        selected_date = self.home_date
         end_date = selected_date.toString("yyyy-MM-dd")
         period = self.combo_period.currentText()
 
@@ -1321,7 +1348,8 @@ class MainWindow(QMainWindow):
         self._apply_app_config()
 
     def _go_home(self) -> None:
-        self.calendar.setSelectedDate(QDate.currentDate())
+        self.home_date = QDate.currentDate()
+        self._update_home_date_labels()
         self.combo_period.setCurrentText("全期間")
         self.search_box.clear()
         self.combo_category.setCurrentIndex(0)
@@ -1347,6 +1375,12 @@ class MainWindow(QMainWindow):
         geometry = self.settings.load_geometry("main")
         if hasattr(geometry, "isEmpty") and not geometry.isEmpty():
             self.restoreGeometry(geometry)
+        home_splitter_state = self.settings.load_state("main_home_splitter")
+        if hasattr(home_splitter_state, "isEmpty") and not home_splitter_state.isEmpty():
+            self.home_content_splitter.restoreState(home_splitter_state)
+        memo_splitter_state = self.settings.load_state("main_memo_splitter")
+        if hasattr(memo_splitter_state, "isEmpty") and not memo_splitter_state.isEmpty():
+            self.memo_preview_splitter.restoreState(memo_splitter_state)
 
     def _load_icon(self, file_name: str) -> QIcon:
         icon_path = self.db.resource_root / "Sozai" / file_name
@@ -1354,5 +1388,8 @@ class MainWindow(QMainWindow):
 
     def closeEvent(self, event) -> None:
         self.settings.save_geometry("main", self.saveGeometry())
+        self.settings.save_state("main_home_splitter", self.home_content_splitter.saveState())
+        self.settings.save_state("main_memo_splitter", self.memo_preview_splitter.saveState())
         self.db.close()
         super().closeEvent(event)
+
