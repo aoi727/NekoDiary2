@@ -124,6 +124,12 @@ QListView {
     background: rgba(255, 255, 255, 188);
     border: 1px solid #f09aa7;
     border-radius: 8px;
+    padding: 0px;
+}
+
+QComboBox,
+QDateEdit,
+QListView {
     padding: 6px;
 }
 

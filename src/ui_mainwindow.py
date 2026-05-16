@@ -153,6 +153,14 @@ def apply_font_to_widget_tree(root: QWidget, font: QFont) -> None:
         widget.setFont(font)
 
 
+def configure_line_edit_for_ime(widget: QLineEdit) -> None:
+    widget.setTextMargins(6, 4, 6, 4)
+
+
+def configure_text_edit_for_ime(widget: QTextEdit | QTextBrowser) -> None:
+    widget.document().setDocumentMargin(6)
+
+
 class FlowLayout(QLayout):
     def __init__(self, parent: QWidget | None = None, margin: int = 0, spacing: int = 6):
         super().__init__(parent)
@@ -287,6 +295,7 @@ class SettingsDialog(QDialog):
         top_row.addSpacing(20)
         top_row.addWidget(QLabel("日記のタイトル"))
         self.title_edit = QLineEdit()
+        configure_line_edit_for_ime(self.title_edit)
         top_row.addWidget(self.title_edit, 1)
 
         ok_button = QPushButton()
@@ -527,6 +536,7 @@ class MemoEditorDialog(QDialog):
         self.date_edit.setDate(QDate.currentDate())
 
         self.title_edit = QLineEdit()
+        configure_line_edit_for_ime(self.title_edit)
         self.title_edit.setPlaceholderText("日記のタイトル")
         self.title_edit.setMinimumWidth(520)
 
@@ -625,15 +635,18 @@ class MemoEditorDialog(QDialog):
         frame_layout.addLayout(toolbar_layout)
 
         self.editor = QTextEdit()
+        configure_text_edit_for_ime(self.editor)
         self.editor.setObjectName("memoEditor")
         self.editor.setAcceptRichText(True)
         self.editor.setMinimumHeight(360)
+        self.editor.cursorPositionChanged.connect(self._refresh_input_method_state)
         self.editor.setPlaceholderText("本文を入力してください")
         set_translucent_scroll_surface(self.editor, 100)
         frame_layout.addWidget(self.editor, 1)
 
         tag_grid = QGridLayout()
         self.tags_edit = QLineEdit()
+        configure_line_edit_for_ime(self.tags_edit)
         self.tags_edit.setPlaceholderText("#天気 #通勤 または 天気; 通勤")
 
         self.add_manual_tag_button = QPushButton()
@@ -689,6 +702,10 @@ class MemoEditorDialog(QDialog):
         font = self.editor.font()
         font.setPointSizeF(get_scaled_point_size(self.config.font_size_mode, self.config.body_text_scale))
         self.editor.setFont(font)
+        self._refresh_input_method_state()
+
+    def _refresh_input_method_state(self) -> None:
+        QApplication.inputMethod().update(Qt.InputMethodQuery.ImQueryInput)
 
     def _load_tag_suggestions(self) -> None:
         for name in self.db.get_category_names():
@@ -1021,6 +1038,7 @@ class MainWindow(QMainWindow):
         keyword_row = QHBoxLayout()
         keyword_row.addWidget(QLabel("内容検索 :"))
         self.search_box = QLineEdit()
+        configure_line_edit_for_ime(self.search_box)
         self.search_box.setPlaceholderText("タイトルまたは本文を検索")
         keyword_row.addWidget(self.search_box)
         search_layout.addLayout(keyword_row)
@@ -1077,6 +1095,7 @@ class MainWindow(QMainWindow):
         self.preview_title.setObjectName("previewTitle")
         self.preview_meta = QLabel("日付 / カテゴリ")
         self.preview_browser = QTextBrowser()
+        configure_text_edit_for_ime(self.preview_browser)
         self.preview_browser.setObjectName("memoPreviewBrowser")
         set_translucent_scroll_surface(self.preview_browser, 100)
         preview_layout.addWidget(self.preview_title)
